@@ -43,7 +43,7 @@ link_directories(
 )
 
 add_executable(baxter_ik_service src/baxter_ik_service.cpp)
-
+add_dependencies(baxter_ik_service baxter_ik_service baxter_ik_service_gencfg baxter_pickup_msgs_gencpp)
 target_link_libraries(baxter_ik_service
    ${roscpp_LIBRARIES} 
    ${std_msgs_LIBRARIES} 
@@ -54,7 +54,7 @@ target_link_libraries(baxter_ik_service
  )
 
 add_executable(baxter_block_tracker src/baxter_block_tracker.cpp)
-
+add_dependencies(baxter_block_tracker baxter_block_tracker_gencpp baxter_block_tracker_gencfg baxter_pickup_msgs_gencpp)
 target_link_libraries(baxter_block_tracker
    ${roscpp_LIBRARIES} 
    ${std_msgs_LIBRARIES} 
