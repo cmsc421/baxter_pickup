@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from baxter_ik.msg import BlockArray
+from baxter_pickup_msgs.msg import BlockArray
 from geometry_msgs.msg import (
     PoseStamped,
     Pose,
@@ -13,7 +13,7 @@ from std_msgs.msg import (
     Empty,
 )
 import baxter_interface
-from baxter_ik.srv import BaxterIK, BaxterIKRequest
+from baxter_pickup_msgs.srv import BaxterIK, BaxterIKRequest
 import copy
 class BaxterPickup:
     def __init__(self, limb, name, ID):
@@ -27,7 +27,6 @@ class BaxterPickup:
         self._block_locations = []
         self._check_for_blocks = False
         # Select limb (left or right)
-        self._limb_name = limb
         self._limb = baxter_interface.Limb(limb)
         # Set movement speed
         self._limb.set_joint_position_speed(0.05)
@@ -80,9 +79,6 @@ class BaxterPickup:
     def move_to_trashcan(self):
         # Implement this function - position Baxter's arm over the trashcan
 
-    def move_to_joint_position(self, joint_angles):
-        # Implement this function - move Baxter's arm to a given joint position as returned from the IK service or provided above (e.g. start or trashcan positions)
-
     def model_callback(self,data): 
         # If looking for blocks, copy locations of found blocks to _block_locations   
         if self._check_for_blocks==True:
@@ -92,6 +88,14 @@ class BaxterPickup:
         # Program loop goes here
         while(True):
             self._check_for_blocks=True
+                if len(self._block_locations.block_poses)==0:
+                    print "Finished"
+                    finished_str = self._ID + ":" + self._name
+                    pub_finished = rospy.Publisher('/pickup_finished', String, queue_size=100)
+                    rospy.sleep(1) 
+                    pub_finished.publish(finished_str)
+                    rospy.sleep(0.5)
+                    return
 
             
 if __name__ == "__main__":
