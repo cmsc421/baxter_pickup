@@ -96,6 +96,7 @@ class BaxterPickup:
                     pub_finished.publish(finished_str)
                     rospy.sleep(0.5)
                     return
+                # Start coding here
 
             
 if __name__ == "__main__":
