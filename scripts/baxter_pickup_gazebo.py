@@ -88,6 +88,7 @@ class BaxterPickup:
         # Program loop goes here
         while(True):
             self._check_for_blocks=True
+            if self._block_locations:
                 if len(self._block_locations.block_poses)==0:
                     print "Finished"
                     finished_str = self._ID + ":" + self._name
